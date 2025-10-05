@@ -30,7 +30,6 @@ export default function Footer() {
                         <li>משלוחים, החזרות והחלפות</li>
                         <li>מדיניות פרטיות</li>
                         <li>צור קשר</li>
-                        <li>טבלת מידות</li>
                     </ul>
                 </div>
 

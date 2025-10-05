@@ -1,13 +1,22 @@
-import { useState } from "react";
+import React, { useState } from "react";
 
 export default function Navbar() {
-    const [open, setOpen] = useState(false);
+    const [aptHover, setAptHover] = useState(false);
 
     const links = [
-        { href: "/", label: "דף הבית" },
-        { href: "/apartments", label: "דירות" },
+        { href: "/contact", label: "יצירת קשר" },
         { href: "/about", label: "קצת עלינו" },
-        { href: "/contact", label: "יצירת קשר" }
+        { href: "/apartments", label: "דירות" },
+        { href: "/", label: "דף הבית" },
+        { href: "/", label: "איזור אישי" }
+    ];
+
+    const apartments = [
+        { href:"/", id: 1, name: "אקווה ויסטה" },
+        { href:"/", id: 2, name: "אקווה סול" },
+        { href:"/", id: 3, name: "פנינת הנוף" },
+        { href:"/", id: 4, name: "כליל הים" },
+        { href:"/", id: 5, name: "קסם המפרץ" }
     ];
 
     return (
@@ -30,71 +39,76 @@ export default function Navbar() {
                 DreamyRent Ltd.
             </div>
 
-            {/* כפתור ☰ לפתיחת Sidebar מימין */}
-            <button
-                onClick={() => setOpen(!open)}
-                style={{
-                    fontSize: "24px",
-                    background: "none",
-                    border: "none",
-                    cursor: "pointer",
-                    marginLeft: "auto",
-                    zIndex: 1001
-                }}
-            >
-                ☰
-            </button>
-
-            {/* Sidebar בצד ימין */}
-            <div style={{
-                position: "fixed",
-                top: 0,
-                right: open ? 0 : "-400px",
-                height: "100%",
-                width: "250px",
-                background: "rgba(0, 0, 0, 0.79)",
-                color: "#fff",
-                transition: "right 0.3s ease",
-                padding: "20px",
-                zIndex: 1000
+            {/* קישורים בצד ימין */}
+            <nav style={{
+                display: "flex",
+                gap: "15px",
+                fontSize: "1.2rem",
+                marginLeft: "auto",
+                position: "relative"
             }}>
-                <button
-                    onClick={() => setOpen(false)}
-                    style={{
-                        fontSize: "28px",
-                        background: "none",
-                        border: "none",
-                        color: "#fff",
-                        cursor: "pointer",
-                        position: "absolute",
-                        top: "15px",
-                        left: "15px"
-                    }}
-                >
-                    ×
-                </button>
-
-                <nav style={{ marginTop: "60px", display: "flex", flexDirection: "column",
-                    gap: "20px", fontSize: "1.3rem", cursor: "pointer", textAlign: "center"}}>
-                    {links.map(link => (
+                {links.map(link => (
+                    <div
+                        key={link.href}
+                        onMouseEnter={() => link.label === "דירות" && setAptHover(true)}
+                        onMouseLeave={() => link.label === "דירות" && setAptHover(false)}
+                        style={{ position: "relative" }}
+                    >
                         <a
-                            key={link.href}
                             href={link.href}
                             style={{
-                                color: "#fff",
+                                color: "#000",
                                 textDecoration: "none",
-                                padding: "10px",
+                                padding: "5px 10px",
+                                transition: "background-color 0.3s",
                                 display: "block",
-                                transition: "background-color 0.3s"
+                                borderRadius:"20px"
                             }}
-                            onMouseEnter={e => e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.3)"}
+                            onMouseEnter={e => e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.1)"}
                             onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
                         >
                             {link.label}
                         </a>
-                    ))}
-                </nav>
-            </div>
+
+                        {/* Hover menu רחב יותר לדירות */}
+                        {link.label === "דירות" && aptHover && (
+                            <ul style={{
+                                position: "absolute",
+                                top: "100%",
+                                right: 0, // שיהיה מותאם לעברית
+                                background: "#f0f0f0",
+                                listStyle: "none",
+                                padding: "15px 0",
+                                margin: 0,
+                                borderRadius: "20px",
+                                boxShadow: "0 2px 10px rgba(0,0,0,0.25)",
+                                zIndex: 100,
+                                width: "220px",
+                                textAlign: "right",
+                                direction: "rtl"
+                            }}>
+                                {apartments.map(apt => (
+                                    <li key={apt.id} style={{ padding: "8px 20px" }}>
+                                        <a
+                                            href={`/apartments/${apt.id}`}
+                                            style={{
+                                                color: "#000",
+                                                textDecoration: "none",
+                                                display: "block",
+                                                transition: "background-color 0.2s"
+                                            }}
+                                            onMouseEnter={e => e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.1)"}
+                                            onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
+                                        >
+                                            {apt.name}
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
+                    </div>
+                ))}
+            </nav>
         </header>
     );
 }
