@@ -1,17 +1,36 @@
-import Navbar from './components/Navbar';
-import Hero from "./components/Hero.jsx";
-import About from "./components/About.jsx";
-import Footer from "./components/Footer.jsx";
-import Gallery from "./components/Gallery.jsx";
+import { Routes, Route } from "react-router-dom";
+import Navbar from './components/home/Navbar.jsx';
+import Hero from "./components/home/Hero.jsx";
+import About from "./components/home/About.jsx";
+import Gallery from "./components/home/Gallery.jsx";
+import Footer from "./components/home/Footer.jsx";
+import ApartmentsList from "./pages/ApartmentsList.jsx";
+import Apartment from "./pages/Apartment.jsx";
+
 function App() {
-    return(
-        <div>
+    return (
+        <>
             <Navbar />
-            <Hero />
-            <About />
-            <Gallery />
-            <Footer />
-        </div>
+            <Routes>
+                {/* דף הבית */}
+                <Route path="/" element={
+                    <>
+                        <Hero />
+                        <About />
+                        <Gallery />
+                        <Footer />
+                    </>
+                } />
+
+                {/* דף כל הדירות */}
+                <Route path="/apartments" element={<ApartmentsList />} />
+
+                {/* דף נחיתה לדירה ספציפית */}
+                <Route path="/apartments/:id" element={<Apartment />} />
+
+                {/* כאן אפשר להוסיף דפים נוספים כמו /contact וכו' */}
+            </Routes>
+        </>
     )
 }
 

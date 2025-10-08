@@ -1,22 +1,23 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 export default function Navbar() {
     const [aptHover, setAptHover] = useState(false);
 
     const links = [
-        { href: "/contact", label: "יצירת קשר" },
-        { href: "/about", label: "קצת עלינו" },
-        { href: "/apartments", label: "דירות" },
-        { href: "/", label: "דף הבית" },
-        { href: "/", label: "איזור אישי" }
+        { to: "/contact", label: "יצירת קשר" },
+        { to: "/about", label: "קצת עלינו" },
+        { to: "/apartments", label: "דירות" },
+        { to: "/", label: "דף הבית" },
+        { to: "/personal", label: "איזור אישי" }
     ];
 
     const apartments = [
-        { href:"/", id: 1, name: "אקווה ויסטה" },
-        { href:"/", id: 2, name: "אקווה סול" },
-        { href:"/", id: 3, name: "פנינת הנוף" },
-        { href:"/", id: 4, name: "כליל הים" },
-        { href:"/", id: 5, name: "קסם המפרץ" }
+        { id: 1, name: "Aqua Vista" },
+        { id: 2, name: "Aqua Sol" },
+        { id: 3, name: "פנינת הנוף" },
+        { id: 4, name: "כליל הים" },
+        { id: 5, name: "קסם המפרץ" }
     ];
 
     return (
@@ -43,39 +44,57 @@ export default function Navbar() {
             <nav style={{
                 display: "flex",
                 gap: "15px",
-                fontSize: "1.2rem",
+                fontSize: "1rem",
                 marginLeft: "auto",
                 position: "relative"
             }}>
                 {links.map(link => (
                     <div
-                        key={link.href}
+                        key={link.to}
                         onMouseEnter={() => link.label === "דירות" && setAptHover(true)}
                         onMouseLeave={() => link.label === "דירות" && setAptHover(false)}
                         style={{ position: "relative" }}
                     >
-                        <a
-                            href={link.href}
-                            style={{
-                                color: "#000",
-                                textDecoration: "none",
-                                padding: "5px 10px",
-                                transition: "background-color 0.3s",
-                                display: "block",
-                                borderRadius:"20px"
-                            }}
-                            onMouseEnter={e => e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.1)"}
-                            onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
-                        >
-                            {link.label}
-                        </a>
+                        {link.label === "דירות" ? (
+                            <span
+                                style={{
+                                    color: "#000",
+                                    textDecoration: "none",
+                                    padding: "5px 10px",
+                                    transition: "background-color 0.3s",
+                                    display: "block",
+                                    borderRadius: "20px",
+                                    cursor: "pointer"
+                                }}
+                                onMouseEnter={e => e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.1)"}
+                                onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
+                            >
+                                {link.label}
+                            </span>
+                        ) : (
+                            <Link
+                                to={link.to}
+                                style={{
+                                    color: "#000",
+                                    textDecoration: "none",
+                                    padding: "5px 10px",
+                                    transition: "background-color 0.3s",
+                                    display: "block",
+                                    borderRadius: "20px"
+                                }}
+                                onMouseEnter={e => e.currentTarget.style.backgroundColor = "rgba(0,0,0,0.1)"}
+                                onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
+                            >
+                                {link.label}
+                            </Link>
+                        )}
 
                         {/* Hover menu רחב יותר לדירות */}
                         {link.label === "דירות" && aptHover && (
                             <ul style={{
                                 position: "absolute",
                                 top: "100%",
-                                right: 0, // שיהיה מותאם לעברית
+                                right: 0,
                                 background: "#f0f0f0",
                                 listStyle: "none",
                                 padding: "15px 0",
@@ -89,8 +108,8 @@ export default function Navbar() {
                             }}>
                                 {apartments.map(apt => (
                                     <li key={apt.id} style={{ padding: "8px 20px" }}>
-                                        <a
-                                            href={`/apartments/${apt.id}`}
+                                        <Link
+                                            to={`/apartments/${apt.id}`}
                                             style={{
                                                 color: "#000",
                                                 textDecoration: "none",
@@ -101,7 +120,7 @@ export default function Navbar() {
                                             onMouseLeave={e => e.currentTarget.style.backgroundColor = "transparent"}
                                         >
                                             {apt.name}
-                                        </a>
+                                        </Link>
                                     </li>
                                 ))}
                             </ul>
